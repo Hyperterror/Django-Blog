@@ -1,6 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+<div class="container">
     <article class="post">
         <aside class="actions">
           {% if user.is_authenticated %}
@@ -14,13 +15,51 @@
                 {{ post.published_date }}
             </time>
         {% endif %}
-        <div class="container mb-4" style="justify-content: center; align-items:center ;">
-            {% if post.thumbnail %}
-                <img src="{{ post.thumbnail.url }}" alt="thumbnail" style="width: 1920px; height: 150px; object-fit: contain;  "/>
-            {% endif %}
+        <div class="d-flex flex-rows mb-3 gap-12  justify-content: between">
+            <div>
+                <h2>{{ post.title }}</h2>
+                <div class="container mb-4 w-100%">
+                    {% if post.featured %}
+                        <img src="{{ post.featured.url }}" alt="thumbnail" style="width: 100%; height: 500px; object-fit: cover;  "/>
+                    {% endif %}
 
+                </div>
+                <div class="d-flex flex-rows gap-4">
+                <h6>Category: {{post.category}}</h6>
+                <h6>Author: {{post.author}}</h6>
+                </div>
+                <p>{{ post.text|linebreaksbr }}</p>
+              
+                <div>
+                <div class="d-flex flex-cols mb-3">
+                    <div>
+                    <p>Tags</p>
+                    {% for tag in tags %}
+                        
+                      <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-secondary">{{tag}}</a>
+                    {% endfor %}
+                    
+                    </div>
+                   
+                </div>
+            </div>
+            </div>
+            <div>
+                <div>
+                    <h3> Categories </h3>
+                {% for cat in cats %}
+                <a href="{% url 'category' slug=cat.slug%}" class="btn btn-secondary">{{cat}}</a>
+                {% endfor %}
+                </div>  
+                <div>
+                    <h3>Tags</h3>
+                    {% for tag in all_tag %}
+                    <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-secondary">{{tag}}</a>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.text|linebreaksbr }}</p>
+
     </article>
+</div>
 {% endblock %}

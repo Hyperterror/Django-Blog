@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Post,User
+from .models import Post,User,Category,Tag
 from django.utils import timezone
 from .forms import PostForm, UserForm, LoginForm, ProfileForm
 from django.contrib.auth import authenticate, login as auth_login, logout
@@ -15,7 +15,12 @@ def post_list(request):
 @login_required
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    return render(request, 'blog/post_detail.html', {'post': post})
+    tags=post.tag.all()
+    cats=Category.objects.all()
+    Tags=Tag.objects.all()
+
+    return render(request, 'blog/post_detail.html', {'post': post,'tags':tags,'all_tag':Tags,'cats':cats})
+@login_required
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
@@ -125,3 +130,16 @@ def profile_edit(request):
         form = ProfileForm(instance=user)
 
     return render(request, 'blog/profile_edit.html', {'form': form})
+
+
+def category_view(request,slug):
+    cat=get_object_or_404(Category,slug=slug)
+    post=Post.objects.filter(category=cat).order_by('published_date')
+    return render(request,'blog/category.html',{'posts':post,'cat':cat})
+
+
+def tag_view(request,slug):
+    tags=get_object_or_404(Tag,slug=slug)
+    post=Post.objects.filter(tag=tags).order_by("published_date")
+
+    return render(request,'blog/tags.html',{'posts':post,'tag':tags})

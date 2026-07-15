@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("polls/",include("polls.urls")),
-    path("blog/",include("blog.urls")),
+    path("",include("blog.urls")),
     path('login/',login_view,name='login'),
     path('logout/',logout_view,name='logout'),
 

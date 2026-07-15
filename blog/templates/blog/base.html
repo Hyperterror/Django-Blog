@@ -23,21 +23,26 @@
                     
                     <div class="navbar-profile">
                         <a href="{% url 'profile' %}">
-                            <img src="{{ user.image.url }}" alt="Profile picture" class="profile-pic">
+                            {% if user.is_authenticated and user.image and user.image %}
+                                <img src="{{ user.image.url }}" alt="Profile picture" class="profile-pic">
+                            {% else %}
+                                <div class="profile-pic d-flex align-items-center justify-content-center bg-secondary text-white">ME</div>
+                            {% endif %}
                         </a>
                     </div>
                 </div>
 
             </nav>
-        </header>
- {% if user.is_authenticated %}
-        <div class="container top-menu-btn">
-            <a href="{% url 'post_new' %}" class="top-menu btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                {% include './icons/file-earmark-plus.svg' %}
-            </a>
-        </div>
+             {% if user.is_authenticated %}
+            <div class="container top-menu-btn">
+                <a href="{% url 'post_new' %}" class="top-menu btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                    {% include './icons/file-earmark-plus.svg' %}
+                </a>
+            </div>  
         {% endif %}
-        <main class="content container">
+        </header>
+
+        <main>
                     {% block content %}
                     {% endblock %}
                 </div>

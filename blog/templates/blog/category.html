@@ -1,17 +1,16 @@
-{% extends 'blog/base.html' %}
+{% extends "blog/base.html" %}
 
 {% block content %}
 <div class="container">
+    <h1>{{cat}}</h1>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 ">
     {% for post in posts %}
-        {% if post.featured and post.featured.name %}
+        {% if post.featured %}
             <div class="col">
                 <div class="card shadow-sm h-100 d-flex flex-colum">
-                    {% if post.thumbnail %}
                     <a href="{% url 'post_detail' slug=post.slug %}">
-                        <img src="{{ post.thumbnail.url }}" alt="featured_image" style="height:200px; width:100%; border: black; object-fit: cover; " class="bd-placeholder-img card-img-top"/>
-                    </a> 
-                    {% endif %}
+                        <img src="{{ post.featured.url }}" alt="featured_image" style="height:200px; width:100%; border: black; object-fit: cover; " class="bd-placeholder-img card-img-top"/>
+                    </a>    
 
             
                     {% endif %}
@@ -29,9 +28,6 @@
                                     </time>
                                 </small>    
                             </div>
-                            <div>
-                              
-                            </div>
                         </article>
                     </div>
                 </div>
@@ -39,4 +35,6 @@
     {% endfor %}
     </div>
 </div>
+
+
 {% endblock %}

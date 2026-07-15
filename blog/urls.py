@@ -6,5 +6,7 @@ urlpatterns= [
   path('post/<slug:slug>/', views.post_detail, name='post_detail'),
   path('post/<slug:slug>/edit/', views.post_edit, name='post_edit'),
   path('profile/',views.profile_view,name='profile'),
-  path('profile/edit/',views.profile_edit,name='profile_edit')
+  path('profile/edit/',views.profile_edit,name='profile_edit'),
+  path('category/<slug:slug>',views.category_view,name='category'),
+  path('tags/<slug:slug>',views.tag_view,name='tags')
   ] 
