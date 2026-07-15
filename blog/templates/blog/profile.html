@@ -1,0 +1,52 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+
+<div class="profile-page">
+  <h2>My Profile
+  </h2>
+  <div class="cards mb-4">
+    <div class="card-body mb-4">
+      <h4>{{ user.get_full_name| default:user.username }}</h4>
+      {% if user.image %}
+        <img src="{{ user.image.url }}" alt="Profile Image" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+      {% endif %}
+      <p><strong>Email: </strong>{{ user.email }}</p>
+      <p><strong>Phone: </strong>{{user.phone_number}}</p>
+      <p><strong>City: </strong>{{user.city}}</p>
+      <p><strong>State: </strong>{{user.state}}</p>
+      
+      {% if profile %}
+        <p><strong>Bio: </strong>{{ profile.bio }}</p>
+        <p><strong>Location: </strong>{{ profile.location }}</p>
+      {% endif %}
+      
+      <a href="{% url 'profile_edit' %}" class="btn btn-primary mt-3">Edit Profile</a>
+    </div>
+  </div>
+
+
+  <h3>
+    My Posts
+  </h3>
+  {% if posts %}
+    {% for post in posts %}
+    <div class="cards mb-4">
+      <div class="card-body">
+        <h5>
+          {{post.title}}
+        </h5>
+        <p>{{post.text|truncatewords:30}}</p>
+        <p class="text-muted">
+          Published:{{post.published_date}}
+        </p>
+        <a href="{%  url 'post_detail' slug=post.slug %}">View</a>
+      </div>
+
+    </div>
+    {% endfor %}
+    {% else %}
+      <p>You have not posted anything yet</p>
+    {% endif %}
+
+</div>
+{% endblock %}

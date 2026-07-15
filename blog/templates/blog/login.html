@@ -1,0 +1,30 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+{% if not request.user.is_authenticated %}
+    <div class="container mt-5">
+      <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+        <h1 style="text-align:center;"><span style='color:rgb(228, 126, 10);'>Hyper's Workspace</span></h1>
+        {% csrf_token %}
+        <h3>
+          Login
+        </h3>
+        <hr>
+        {% if messages %}
+        <div class="alert alert-primary" role="alert">
+          {% for message in messages %}
+          {{ message }}
+          {% endfor %}
+        </div>
+        {% endif %}
+        {{form.as_p}}
+        <p>Don't have an account
+        <a href="/signup/">Sign Up</a>
+        </p>
+        <button type="submit" class="btn btn-primary">Log In</button>
+      </form>
+    </div>
+{% else %}
+    <p>You are already logged in, would you like to <a href="{% url 'logout' %}">Logout</a>?</p>
+{% endif %}
+{% endblock %}

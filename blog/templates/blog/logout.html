@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+{% if request.user.is_authenticated%}
+ <div class="container mt-5">
+      <div class="col-6 mx-auto card p-3 shadow-lg">
+        <h1 style="text-align:center;"><span style='color:rgb(228, 126, 10);'>Hyper's Workspace</span></h1>
+        <h3>
+          Logout
+        </h3>
+        <hr>
+        <p>Do you want to log out?</p>
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Log Out</button>
+        </form>
+      </div>
+    </div>
+{% else %}
+    <p>You are not logged in, would you like to <a href="{% url 'login' %}">Login</a>?</p>
+{% endif %}
+
+
+
+{% endblock %}

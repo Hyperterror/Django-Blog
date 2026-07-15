@@ -1,0 +1,26 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+{% for post in posts %}
+    {% if post.featured %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col">
+            <div class="card shadow-sm">
+                <img src="{{ post.featured.url }}" alt="featured_image" style="height: 200px; width: 200px; border: black; border-radius:10px;"/>
+
+        
+                {% endif %}
+                <div class="card-body">
+                    <article class="post">
+                        <time class="date">
+                            {{ post.published_date }}
+                        </time>
+                        <h2><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h2>
+                        <p>{{ post.text|linebreaksbr }}</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>  
+{% endfor %}
+{% endblock %}
