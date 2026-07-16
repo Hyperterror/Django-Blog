@@ -3,62 +3,66 @@
 {% block content %}
 <div class="container">
     <article class="post">
-        <aside class="actions">
-          {% if user.is_authenticated %}
-            <a class="btn btn-secondary" href="{% url 'post_edit' slug=post.slug %}">
-                {% include './icons/pencil-fill.svg' %}
-            </a>
-          {% endif %}
-        </aside>
-        {% if post.published_date %}
-            <time class="date">
-                {{ post.published_date }}
-            </time>
+        <div class="d-flex justify-content-end align-items-center mb-2 gap-3">
+            {% if post.published_date %}
+                <time class="date">
+                    {{ post.published_date }}
+                </time>
+            {% endif %}
+            
+            {% if user.is_authenticated and post.author == user %}
+                <aside class="actions">
+                    <a class="btn btn-secondary" href="{% url 'post_edit' slug=post.slug %}">
+                        {% include './icons/pencil-fill.svg' %}
+                    </a>
+                </aside>
+            {% endif %}
+        </div> 
+        <h2 class="mb-4">{{ post.title }}</h2>
+        {% if post.featured %}
+            <div class="w-100 mb-4">
+                <img src="{{ post.featured.url }}" alt="thumbnail" style="width: 100%; height: 350px; object-fit: cover; border-radius: 8px;" />
+            </div>
         {% endif %}
-        <div class="d-flex flex-rows mb-3 gap-12  justify-content: between">
-            <div>
-                <h2>{{ post.title }}</h2>
-                <div class="container mb-4 w-100%">
-                    {% if post.featured %}
-                        <img src="{{ post.featured.url }}" alt="thumbnail" style="width: 100%; height: 500px; object-fit: cover;  "/>
-                    {% endif %}
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <div class="d-flex gap-4 mb-3">
 
+                    <h6>Category: {{post.category}}</h6>
+                    <h6>Author: {{post.author}}</h6>
                 </div>
-                <div class="d-flex flex-rows gap-4">
-                <h6>Category: {{post.category}}</h6>
-                <h6>Author: {{post.author}}</h6>
+                <div class="post-content mb-4">
+                    <p>{{ post.text|linebreaksbr }}</p>
                 </div>
-                <p>{{ post.text|linebreaksbr }}</p>
-              
-                <div>
-                <div class="d-flex flex-cols mb-3">
-                    <div>
-                    <p>Tags</p>
+                <div class="mb-4">
+                    <p class="fw-bold mb-2">Tags:</p>    
+                    <div class="d-flex flex-wrap gap-2">
                     {% for tag in tags %}
                         
-                      <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-secondary">{{tag}}</a>
+                      <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-outline-secondary">{{tag}}</a>
                     {% endfor %}
-                    
                     </div>
                    
                 </div>
             </div>
-            </div>
-            <div>
-                <div>
+            <div class="col-md-4 col-10 text-md mt-4">
+                <div class="mb-4">
                     <h3> Categories </h3>
-                {% for cat in cats %}
-                <a href="{% url 'category' slug=cat.slug%}" class="btn btn-secondary">{{cat}}</a>
-                {% endfor %}
+                    <div class="d-flex flex-wrap gap-2 justify-content-end">
+                    {% for cat in cats %}
+                        <a href="{% url 'category' slug=cat.slug%}" class="btn btn-secondary btn-sm">{{cat}}</a>
+                    {% endfor %}
+                    </div>
                 </div>  
                 <div>
                     <h3>Tags</h3>
                     {% for tag in all_tag %}
-                    <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-secondary">{{tag}}</a>
+                        <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-secondary btn-sm">{{tag}}</a>
                     {% endfor %}
                 </div>
             </div>
         </div>
+
 
     </article>
 </div>

@@ -16,6 +16,11 @@
                 </div>
 
                 <div class="navbar-right">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'post_new' %}" class="top-menu btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            {% include './icons/file-earmark-plus.svg' %}
+                        </a> 
+                    {% endif %}
                     <ul class="navbar-links">
                         <li><a href="{% url 'post_list' %}">BLOG</a></li>
                         <li><a href="/polls">Polls</a></li>
@@ -26,20 +31,16 @@
                             {% if user.is_authenticated and user.image and user.image %}
                                 <img src="{{ user.image.url }}" alt="Profile picture" class="profile-pic">
                             {% else %}
-                                <div class="profile-pic d-flex align-items-center justify-content-center bg-secondary text-white">ME</div>
+                                <div class="d-flex align-items-center justify-content-center btn btn-secondary">
+                                    <a class="btn btn-secondary  text-white" href="/login/">LOGIN</a>
+                                    <a class="btn btn-secondary  text-white" href="/signup/">SIGNUP</a>
+                                </div>
                             {% endif %}
                         </a>
                     </div>
                 </div>
 
             </nav>
-             {% if user.is_authenticated %}
-            <div class="container top-menu-btn">
-                <a href="{% url 'post_new' %}" class="top-menu btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                    {% include './icons/file-earmark-plus.svg' %}
-                </a>
-            </div>  
-        {% endif %}
         </header>
 
         <main>
