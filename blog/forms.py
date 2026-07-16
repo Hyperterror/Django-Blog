@@ -1,14 +1,18 @@
 from django import forms
 
 from .models import Post, User
-
-class PostForm(forms.ModelForm):
+class CustomForm:
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class']='form-control'
+class PostForm(CustomForm,forms.ModelForm):
 
     class Meta:
         model = Post
         fields = ('featured','thumbnail','title', 'text','category','tag')
 
-class UserForm(forms.ModelForm):
+class UserForm(CustomForm,forms.ModelForm):
     class Meta:
         model=User
 
@@ -17,7 +21,7 @@ class UserForm(forms.ModelForm):
             'password': forms.PasswordInput(),
         }
 
-class LoginForm(forms.ModelForm):
+class LoginForm(CustomForm,forms.ModelForm):
     class Meta:
         model=User
         fields=['email','password']
@@ -25,7 +29,7 @@ class LoginForm(forms.ModelForm):
             'password': forms.PasswordInput(),
         }
 
-class ProfileForm(forms.ModelForm):
+class ProfileForm(CustomForm,forms.ModelForm):
     class Meta:
         model=User
         fields=["first_name","last_name","email",'phone_number','city','state','image']

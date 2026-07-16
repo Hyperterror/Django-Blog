@@ -1,49 +1,82 @@
 {% extends 'blog/base.html' %}
 {% block content %}
-<div class="container">
-  <div class="profile-page">
-    <h2>My Profile
-    </h2>
-    <div class="cards mb-4">
-      <div class="card-body mb-4">
-        <h4>{{ user.get_full_name| default:user.username }}</h4>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-mb-4 mb-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center">
         {% if user.image and user.image.name %}
-          <img src="{{ user.image.url }}" alt="Profile Image" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;">
+          <img src="{{ user.image.url }}" alt="Profile Image" class="rounded-circle mb-3 border border-3 border-primary" style="width: 150px; height: 150px; object-fit: cover;">
+        {% else %}
+        <div class="rounded-circle mb-3 bg-secondary text-white d-flex align-items-center justify-content-center mx-auto" style="width: 150px; height: 150px; font-size: 3rem;">
+          {{ user.get_full_name|default:user.username|slice:":1"|upper }}
+        </div>
         {% endif %}
+        <h4 class="card-title fw-bold">{{ user.get_full_name| default:user.username }}</h4>
         <p><strong>Email: </strong>{{ user.email }}</p>
-        <p><strong>Phone: </strong>{{user.phone_number}}</p>
-        <p><strong>City: </strong>{{user.city}}</p>
-        <p><strong>State: </strong>{{user.state}}</p>
-        
-        
         <a href="{% url 'profile_edit' %}" class="btn btn-primary mt-3">Edit Profile</a>
+        <a href="/logout/" class="btn btn-secondary mt-3">LOGOUT</a>   
       </div>
     </div>
 
+    <div class="card shodow-sm mt-5">
+      <div class="card-body">
+        <h5 class="card-title fw-bold mb-4">
+          About
+        </h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="text-muted">Phone</span>
+            <span class="fw-medium">{{ user.phone_number|default:"-" }}</span>
+          
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="text-muted">City </span>
+            <span class="fw-medium">{{ user.city|default:"-" }}</span>
+          
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="text-muted">State</span>
+            <span class="fw-medium">{{ user.state|default:"-" }}</span>
+          
+          </li>
+        </ul>
 
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
     <h3>
       My Posts
     </h3>
     {% if posts %}
+    <div class="row row-cols-1 row-cols-md-2 g-5">
       {% for post in posts %}
-      <div class="cards mb-4">
-        <div class="card-body">
-          <h5>
+      <div class="col">
+        <div class="card shadow h-100 border-0">
+          {% if post.featured %}
+          <img src="{{ post.featured.url }}" class="card-img-top" alt="post image" style="height: 180px; object-fit: cover;">
+          {% endif %}
+          <div class="card-body d-flex flex-column">
+          <h5 class="card-title">
             {{post.title}}
           </h5>
-          <p>{{post.text|truncatewords:30}}</p>
-          <p class="text-muted">
+          <p class="card-text">{{post.text|truncatewords:30}}</p>
+          <p class="card-text text-muted">
             Published:{{post.published_date}}
           </p>
-          <a href="{%  url 'post_detail' slug=post.slug %}">View</a>
+          <a href="{%  url 'post_detail' slug=post.slug %}"  class="btn btn-sm btn-primary mt-auto align-self-start">View</a>
         </div>
-
       </div>
-      {% endfor %}
-      {% else %}
-        <p>You have not posted anything yet</p>
-      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+      <p>You have not posted anything yet</p>
+  {% endif %}
 
+  </div>
   </div>
 </div>
 {% endblock %}

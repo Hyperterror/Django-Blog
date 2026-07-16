@@ -1,20 +1,44 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+
 <div class="container mt-4">
-    <h2>Edit Profile</h2>
-    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-      {% if messages %}
-        <div class="alert alert-primary" role="alert">
-          {% for message in messages %}
-          {{ message }}
-          {% endfor %}
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="mb-5 fw-bold text-center">Edit Profile
+          </h2>
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-primary fade show" role="alert">
+              
+                {{ message }}
+              
+              </div>
+            {% endfor %}
+          {% endif %}
+          <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <div class="row g-3">
+              {% for field in form %}
+              <div class="col-12">
+                <div class="mb-2">
+                  <label>{{field.label}}</label>
+                  {{field}}
+                </div>
+              </div>
+              {%endfor%}
+              </div>
+              <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="{% url 'profile' %}" class="btn btn-outline-secondary mt-2">Cancel</a>
+
+                <button type="submit" class="btn btn-primary">Save Profile</button>
+              </div>
+            </form>
+          </div>
         </div>
-      {% endif %}
-        {{form1.as_p}}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Save Profile</button>
-    </form>
-    <a href="{% url 'profile' %}" class="btn btn-secondary mt-2">Cancel</a>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
