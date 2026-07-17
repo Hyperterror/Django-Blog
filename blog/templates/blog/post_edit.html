@@ -1,12 +1,45 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<div class="continer">
-    <h2>New post</h2>
-    <form method="POST" enctype="multipart/form-data" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-secondary">Save</button>
-    </form>
-
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-8">
+      <div class="card shadow">
+        <div class="card-body p-4 p-md-5">
+        {%if post %}
+          <h2 class="mb-5 fw-bold text-center">Edit Post
+          </h2>
+        {% else %}
+          <h2 class="mb-5 fw-bold text-center">New Post
+          </h2>
+        {%endif%}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-primary fade show" role="alert">
+              
+                {{ message }}
+              
+              </div>
+            {% endfor %}
+          {% endif %}
+            <form method="POST" enctype="multipart/form-data" class="post-form">{% csrf_token %}
+                <div class="row">
+                    {% for field in form %}
+                    <div class="col-12 mt-4 mb-3">
+                        <label class="form-label fw-medium">{{field.label}}</label>
+                        {{field}}
+                    </div>
+                    {% endfor %}
+                    <small class="text-muted ">To select multiple Tags HOLD ctrl and SELECT </small>
+                </div>
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="save btn btn-primary px-4 py-2 fw-medium">Save</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 {% endblock %}

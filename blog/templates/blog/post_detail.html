@@ -18,14 +18,19 @@
                 </aside>
             {% endif %}
         </div> 
-        <h2 class="mb-4">{{ post.title }}</h2>
-        {% if post.featured %}
-            <div class="w-100 mb-4">
-                <img src="{{ post.featured.url }}" alt="thumbnail" style="width: 100%; height: 350px; object-fit: cover; border-radius: 8px;" />
-            </div>
-        {% endif %}
         <div class="row">
-            <div class="col-md-6 col-12">
+            <div class="col-md-8 col-12">
+                <div class="d-flex align-items-center mb-4 gap-3">
+                    {% if post.thumbnail %}
+                        <img src="{{ post.thumbnail.url }}" alt="thumbnail" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;" />
+                    {% endif %}
+                    <h2 class="mb-0">{{ post.title }}</h2>
+                </div>
+                {% if post.featured %}
+                    <div class="w-100 mb-4">
+                        <img src="{{ post.featured.url }}" alt="featured image" style="width: 100%; height: 350px; object-fit: cover; border-radius: 8px;" />
+                    </div>
+                {% endif %}
                 <div class="d-flex gap-4 mb-3">
 
                     <h6>Category: {{post.category}}</h6>
@@ -39,7 +44,7 @@
                     <div class="d-flex flex-wrap gap-2">
                     {% for tag in tags %}
                         
-                      <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-outline-secondary">{{tag}}</a>
+                      <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-secondary">{{tag}}</a>
                     {% endfor %}
                     </div>
                    
@@ -48,22 +53,65 @@
             <div class="col-md-4 col-10 text-md mt-4">
                 <div class="mb-4">
                     <h3> Categories </h3>
-                    <div class="d-flex flex-wrap gap-2 justify-content-end">
+                    <div class="d-flex flex-wrap gap-2 justify-content-start">
                     {% for cat in cats %}
-                        <a href="{% url 'category' slug=cat.slug%}" class="btn btn-secondary btn-sm">{{cat}}</a>
+                        <a href="{% url 'category' slug=cat.slug%}" class="btn btn-outline-primary btn-sm">{{cat}}</a>
                     {% endfor %}
                     </div>
                 </div>  
                 <div>
                     <h3>Tags</h3>
+                    <div class="d-flex flex-wrap gap-2 justify-content-start">
                     {% for tag in all_tag %}
                         <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-secondary btn-sm">{{tag}}</a>
                     {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
-
-
+        <hr>
+        <div class="comment-section mt-5 w-75">
+            <h5>Comments {{post.comments.count}}</h5>
+            {% if user.is_authenticated %}
+                <form method="POST" class="mb-4">{% csrf_token %}
+                    {{comment_form.as_p}}
+                    <button type="submit" class="btn btn-secondary">Post</button>
+                </form>
+            {%endif%}
+            {%for comment in comments%}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{comment.author.first_name}} <small>{{comment.posted_date}}</small></h5>
+                        <p class="card-text"> {{comment.text}}</p>
+                    
+                        {%if user.is_authenticated %}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#replyBox{{comment.id}}">
+                            Reply
+                        </button>
+                        <div class="collapse mt-3" id="replyBox{{comment.id}}">
+                            <form method="POST"> {%csrf_token%}
+                                <input type="hidden" name="reply_id" value="{{comment.id}}" placeholder="Reply">
+                                    {{comment_form.as_p}}
+                                <button type="submit" class="btn btn-primary">Post Reply</button>
+                            </form>
+                        </div>
+                        {%endif%}
+                        {% for reply in comment.comment_set.all%}
+                        <div class="card mt-3 ms-4 ms-md-5 border-0 border-start border-primary border-3 bg-light">
+                                <div class="card-body py-2">
+                                    <h6 class="card-title">{{ reply.author.first_name}} <small class="text-muted">{{ reply.posted_date }}</small></h6>
+                                    <p class="card-text mb-0">{{ reply.text }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No comments yet. Be the first to comment!</p>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
     </article>
 </div>
 {% endblock %}

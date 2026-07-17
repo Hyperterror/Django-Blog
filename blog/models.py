@@ -56,3 +56,17 @@ class Post(mod.Model):
 
   def __str__(self):
     return self.title
+  
+class Comment(mod.Model):
+  author=mod.ForeignKey(User,on_delete=mod.CASCADE)
+  post=mod.ForeignKey(Post,on_delete=mod.CASCADE ,related_name='comments')
+  text=mod.TextField()
+  posted_date=mod.DateTimeField(default=timezone.now)
+  reply=mod.ForeignKey('self',null=True,blank=True, on_delete=mod.CASCADE)
+
+  def __str__(self):
+    return f"{self.author.username} on {self.post.title}"
+  @property
+  def is_reply(self):
+    return self.reply is None
+

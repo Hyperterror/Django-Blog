@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Post, User
+from .models import Post, User, Comment
 class CustomForm:
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
@@ -34,3 +34,19 @@ class ProfileForm(CustomForm,forms.ModelForm):
         model=User
         fields=["first_name","last_name","email",'phone_number','city','state','image']
     
+class CommentForm(CustomForm,forms.ModelForm):
+    class Meta:
+        model=Comment
+        fields=['text']
+
+"""
+class PasswordForm(CustomForm,forms.ModelForm):
+    class Meta:
+        model=User
+        fields=['email']
+
+class PasswordForm2(CustomForm,forms.ModelForm):
+    class Meta:
+        model=User
+        fields=['email','password']
+"""
