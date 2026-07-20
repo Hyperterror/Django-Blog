@@ -29,8 +29,12 @@
                     
                     <div class="navbar-profile">
                         <a href="{% url 'profile' %}">
-                            {% if user.is_authenticated and user.image and user.image %}
+                            {% if user.is_authenticated %}
+                                {% if user.image%}
                                 <img src="{{ user.image.url }}" alt="Profile picture" class="profile-pic">
+                                {%else%}
+                                    <h3 class="profile-pic text-muted">ME </h3>
+                                {%endif%}
                             {% else %}
                                 <div class="d-flex align-items-center justify-content-center btn btn-secondary">
                                     <a class="btn btn-secondary  text-white" href="/login/">LOGIN</a>
