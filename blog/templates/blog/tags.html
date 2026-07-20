@@ -20,7 +20,9 @@
                             <p class="card-text">{{ post.text|linebreaksbr| truncatewords:20 }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div >
+                                    {%if post.category%}
                                     <a class="btn btn-sm btn-outline-secondary" href="{% url 'category' slug=post.category.slug %}">{{post.category}}</a>
+                                    {%endif%}
                                 </div>
                                 <small class="text-body-secondary">
                                     <time class="date">

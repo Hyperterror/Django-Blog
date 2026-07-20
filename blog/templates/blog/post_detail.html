@@ -43,8 +43,10 @@
                     <p class="fw-bold mb-2">Tags:</p>    
                     <div class="d-flex flex-wrap gap-2">
                     {% for tag in tags %}
+                        {%if tag%}
                         
                       <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-secondary">{{tag}}</a>
+                      {%endif%}
                     {% endfor %}
                     </div>
                    
@@ -55,15 +57,20 @@
                     <h3> Categories </h3>
                     <div class="d-flex flex-wrap gap-2 justify-content-start">
                     {% for cat in cats %}
+                        {%if cat%}
                         <a href="{% url 'category' slug=cat.slug%}" class="btn btn-outline-primary btn-sm">{{cat}}</a>
+                        {%endif%}
                     {% endfor %}
                     </div>
                 </div>  
                 <div>
                     <h3>Tags</h3>
+                    
                     <div class="d-flex flex-wrap gap-2 justify-content-start">
                     {% for tag in all_tag %}
+                        {%if tag%}
                         <a href="{% url 'tags' slug=tag.slug %}" class="btn btn-secondary btn-sm">{{tag}}</a>
+                        {%endif%}
                     {% endfor %}
                     </div>
                 </div>

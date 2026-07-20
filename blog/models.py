@@ -44,8 +44,8 @@ class Post(mod.Model):
   created_date= mod.DateTimeField(default=timezone.now)
   published_date= mod.DateTimeField(blank=True, null=True)
   slug=AutoSlugField(populate_from='title', unique=True)
-  category=mod.ForeignKey(Category,null=True,blank=True,on_delete=mod.CASCADE)
-  tag=mod.ManyToManyField(Tag,blank=True)
+  category=mod.ForeignKey(Category,null=True,on_delete=mod.CASCADE)
+  tag=mod.ManyToManyField(Tag)
   thumbnail=mod.ImageField(upload_to='posts/thumbnails/', blank=True, null=True)
   featured=mod.ImageField(upload_to='posts/featured/', blank=True, null=True)
   

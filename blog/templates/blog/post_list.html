@@ -21,7 +21,9 @@
                             <p class="card-text">{{ post.text|linebreaksbr| truncatewords:20 }}</p>
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <div >
+                                    {%if post.category%}
                                     <a class="btn btn-sm btn-outline-secondary" href="{% url 'category' slug=post.category.slug %}">{{post.category}}</a>
+                                    {%endif%}
                                 </div>
                                 <small class="text-body-secondary">
                                     <time class="date">
@@ -30,8 +32,10 @@
                                 </small>    
                             </div>
                            <div class="d-flex flex-wrap  align-items-start gap-2"> 
-                                {% for tag in post.tag.all %} 
+                                {% for tag in post.tag.all %}
+                                    {%if tag%}
                                     <a class="btn btn-secondary btn-sm" href="{% url 'tags' slug=tag.slug %}">{{ tag }}</a> 
+                                    {%endif%}
                                 {% endfor %} 
                             </div>
                         </article>
